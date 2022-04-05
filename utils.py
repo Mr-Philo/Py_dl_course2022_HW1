@@ -81,5 +81,49 @@ class Outputer(object):
                                                               item.get('Year')))
         print("------------------------------------------------------------------------------------------------------------------------------------------")
 
-    def outputer_html(self, datas):
-        print("Waiting for Update...")
+    def outputer_html(self, datas, search_str):
+
+        f = open("result.html", "w", encoding='utf-8')
+
+        f.write('''
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta http-equiv="X-UA-Compatible" content="IE=edge">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>DBLP Searching Information</title>
+        </head>
+        ''')
+
+        f.write("<body>\n")
+        f.write("<table border='1' width='100%' cellspacing='0' cellpadding='4'>\n")
+        f.write("<caption><h3>Searching Result for \"%s\"</h3></caption>\n" % search_str)
+        f.write('''
+        <tr>
+            <th>Type</th>
+            <th>Link</th>
+            <th>First Author</th>
+            <th>Title</th>
+            <th>Year</th>
+        </tr>
+        ''')
+        for item in datas:
+            if item.get('Link') == '':
+                continue
+            f.write("<tr>\n")
+            f.write("   <td>{}</td>\n".format(item.get('Type')))
+            f.write("   <td><a href='{}'>{}</a></td>\n".format(item.get('Link'), item.get('Link')))
+            f.write("   <td>{}</td>\n".format(item.get('Authors')[0] if len(item.get('Authors')) else ''))
+            f.write("   <td>{}</td>\n".format(item.get('Title')))
+            f.write("   <td>{}</td>\n".format(item.get('Year')))
+            f.write("</tr>\n")
+
+        f.write("</table>\n")
+
+        f.write("<br/>")
+        f.write("<div align='right'>Note: The data shown above is from <a href='https://dblp.org/'>https://dblp.org/</a> </div>\n")
+        f.write("<div align='right'>For py_dl_course2022 larning only    --Ruizhe Wang </div>\n")
+        f.write("</body>\n")
+        f.write("</html>\n")
+        f.close()

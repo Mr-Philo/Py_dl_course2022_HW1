@@ -67,19 +67,26 @@ class HtmlParser(object):
 
 class Outputer(object):
 
-    def output_terminal(self, datas):  # see results on terminal
-        print("------------------------------------------------------------------------------------------------------------------------------------------")
-        print("|  Type  |                  Link                  |  First Author  |                          Title                             |  year  |")
+    # def output_terminal(self, datas):  # see results on terminal
+    #     print("------------------------------------------------------------------------------------------------------------------------------------------")
+    #     print("|  Type  |                  Link                  |  First Author  |                          Title                             |  year  |")
+    #     for item in datas:
+    #         if item.get('Link') == '':
+    #             continue
+    #         print("------------------------------------------------------------------------------------------------------------------------------------------")
+    #         print("|{:^8}|{:^40}|{:^16}|{:^60}|{:^8}|".format(item.get('Type'),
+    #                                                           item.get('Link'),
+    #                                                           (item.get('Authors')[0] if len(item.get('Authors')) else ''),
+    #                                                           item.get('Title'),
+    #                                                           item.get('Year')))
+    #     print("------------------------------------------------------------------------------------------------------------------------------------------")
+    def output_terminal(self, datas):      # simple terminal output
+        print("\nAll related publications links are listed as belows:")
         for item in datas:
             if item.get('Link') == '':
                 continue
-            print("------------------------------------------------------------------------------------------------------------------------------------------")
-            print("|{:^8}|{:^40}|{:^16}|{:^60}|{:^8}|".format(item.get('Type'),
-                                                              item.get('Link'),
-                                                              (item.get('Authors')[0] if len(item.get('Authors')) else ''),
-                                                              item.get('Title'),
-                                                              item.get('Year')))
-        print("------------------------------------------------------------------------------------------------------------------------------------------")
+            print(item.get('Link'))
+        print("For more details, please refer the document \"result.html\" in web page.\n")
 
     def outputer_html(self, datas, search_str):
 
@@ -97,7 +104,7 @@ class Outputer(object):
         ''')
 
         f.write("<body>\n")
-        f.write("<table border='1' width='100%' cellspacing='0' cellpadding='4'>\n")
+        f.write("<table border='1' width='100%' cellspacing='0' cellpadding='4' bgcolor='#EEF7F2'>\n")
         f.write("<caption><h3>Searching Result for \"%s\"</h3></caption>\n" % search_str)
         f.write('''
         <tr>
@@ -105,6 +112,7 @@ class Outputer(object):
             <th>Link</th>
             <th>First Author</th>
             <th>Title</th>
+            <th>Source</th>
             <th>Year</th>
         </tr>
         ''')
@@ -114,8 +122,9 @@ class Outputer(object):
             f.write("<tr>\n")
             f.write("   <td>{}</td>\n".format(item.get('Type')))
             f.write("   <td><a href='{}'>{}</a></td>\n".format(item.get('Link'), item.get('Link')))
-            f.write("   <td>{}</td>\n".format(item.get('Authors')[0] if len(item.get('Authors')) else ''))
+            f.write("   <td><a href='{}'>{}</a></td>\n".format(("https://dblp.org/search?q=" + item.get('Authors')[0]), item.get('Authors')[0] if len(item.get('Authors')) else ''))
             f.write("   <td>{}</td>\n".format(item.get('Title')))
+            f.write("   <td>{}</td>\n".format(item.get('Where')))
             f.write("   <td>{}</td>\n".format(item.get('Year')))
             f.write("</tr>\n")
 

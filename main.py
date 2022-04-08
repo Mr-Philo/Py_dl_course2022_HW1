@@ -12,11 +12,12 @@ class My_Crawler(object):
     def craw(self, search_str):
         pub_list_raw = self.crawler.Crawl_html(search_str)      # Step 1: Crawl the web
         pub_list_data = self.parser.Parse_html(pub_list_raw)    # Step 2: Parse the web
-        # self.Outputer.output_terminal(pub_list_data)            # Step 3: Output for visibility
+        self.Outputer.output_terminal(pub_list_data)            # Step 3: Output for visibility
         self.Outputer.outputer_html(pub_list_data, search_str)
 
 
 if __name__ == "__main__":
-    search_str = "Houqiang Li"      # Enter the key words here
+    # search_str = "Houqiang Li"      # Enter the key words here
     crawler = My_Crawler()
+    search_str = input("Please input the searching key words: \n")
     crawler.craw(search_str)
